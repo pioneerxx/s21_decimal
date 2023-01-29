@@ -1,4 +1,8 @@
-#include "math.h"
+#include <math.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+
 
 #define MAX 79228162514264337593543950335
 
@@ -36,3 +40,6 @@ int s21_negate(s21_decimal value, s21_decimal *result);
 
 //Support functions
 void set_bit_to_1(int *value, int bitNum);
+void set_bit_to_0(int *value, int bitNum);
+void invert_bit(int *value, int bitNum);
+int get_bit(unsigned int value, int bitNum);

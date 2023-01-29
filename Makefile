@@ -7,7 +7,7 @@ TEST_LIBS = -lcheck -lm -lpthread
 all: gcov_report
 
 s21_decimal.a:
-	$(CC) $(FLAGS) -c s21_add.c s21_div.c s21_floor.c s21_from_decimal_to_float.c s21_from_decimal_to_int.c s21_from_float_to_decimal.c s21_from_int_to_decimal.c s21_is_equal.c s21_is_greater_or_equal.c s21_is_greater.c s21_is_less_or_equal.c s21_is_less.c s21_is_not_equal.c s21_mod.c s21_mul.c s21_negate.c s21_round.c s21_sub.c s21_truncate.c
+	$(CC) $(FLAGS) -c s21_add.c s21_div.c s21_floor.c s21_from_decimal_to_float.c s21_from_decimal_to_int.c s21_from_float_to_decimal.c s21_from_int_to_decimal.c s21_is_equal.c s21_is_greater_or_equal.c s21_is_greater.c s21_is_less_or_equal.c s21_is_less.c s21_is_not_equal.c s21_mod.c s21_mul.c s21_negate.c s21_round.c s21_sub.c s21_truncate.c s21_other_funcs.c
 	ar rc s21_decimal.a *.o
 	ranlib s21_decimal.a
 
@@ -41,3 +41,9 @@ clean:
 	rm -rf gcov_test
 
 rebuild: clean all
+
+
+test2: s21_decimal.a
+	$(CC) -c test.c -o test.o
+	$(CC) test.o s21_decimal.a -o test
+	./test

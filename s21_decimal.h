@@ -43,3 +43,4 @@ void set_bit_to_1(int *value, int bitNum);
 void set_bit_to_0(int *value, int bitNum);
 void invert_bit(int *value, int bitNum);
 int get_bit(unsigned int value, int bitNum);
+void print_bits(s21_decimal src);

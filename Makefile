@@ -6,6 +6,9 @@ TEST_LIBS = -lcheck -lm -lpthread
 
 all: gcov_report
 
+clang:
+	clang-format -n -style=google s21_*.c
+
 s21_decimal.a:
 	$(CC) $(FLAGS) -c s21_add.c s21_div.c s21_floor.c s21_from_decimal_to_float.c s21_from_decimal_to_int.c s21_from_float_to_decimal.c s21_from_int_to_decimal.c s21_is_equal.c s21_is_greater_or_equal.c s21_is_greater.c s21_is_less_or_equal.c s21_is_less.c s21_is_not_equal.c s21_mod.c s21_mul.c s21_negate.c s21_round.c s21_sub.c s21_truncate.c s21_other_funcs.c
 	ar rc s21_decimal.a *.o
@@ -16,16 +19,17 @@ test: s21_decimal.a
 	$(CC) s21_decimal_test.o s21_decimal.a $(TEST_LIBS) -o s21_decimal
 	./s21_decimal
 
+install lcov:
+	curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh
+	brew install lcov
 
 gcov_report: test
 	$(CC) $(FLAGS) --coverage s21_decimal_test.c s21_add.c s21_div.c s21_floor.c s21_from_decimal_to_float.c s21_from_decimal_to_int.c s21_from_float_to_decimal.c s21_from_int_to_decimal.c s21_is_equal.c s21_is_greater_or_equal.c s21_is_greater.c s21_is_less_or_equal.c s21_is_less.c s21_is_not_equal.c s21_mod.c s21_mul.c s21_negate.c s21_round.c s21_sub.c s21_truncate.c s21_decimal.h s21_decimal.a $(TEST_LIBS) -o gcov_test
 	chmod +x *
 	./gcov_test
-	gcov s21_*.gcda
-	gcovr -b
-	gcovr
-	gcovr --html-details -o report.html
-	open report.html
+	lcov -t "gcovReport" -o gcov_test.info -c -d .
+	genhtml -o report.html gcov_test.info
+	oprn report.html
 
 clean:
 	rm -rf s21_decimal

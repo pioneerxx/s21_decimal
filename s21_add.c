@@ -1,16 +1,17 @@
 #include "s21_decimal.h"
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    memset(&(result->bits), 0, sizeof(result->bits));
     int shift = 0;
     int tmp = 0;
     int res = 0;
     int neg1 = 0;
     int neg2 = 0;
-    if (get_bit(value_1.bits[3], 31)) {
+    if (is_neg(value_1)) {
         neg1 = 1;
         set_bit_to_0(&(value_1.bits[3]), 31);
     }
-    if (get_bit(value_2.bits[3], 31)) {
+    if (is_neg(value_2)) {
         neg2 = 1;
         set_bit_to_0(&(value_2.bits[3]), 31);
     }
@@ -29,7 +30,6 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             set_bit_to_1(&(result->bits[3]), 31);
         }
     } else {
-        memset(&(result->bits), 0, sizeof(result->bits));
         for (int i = 0; i < 1; i++) {
             for (int j = 0; j < 32; j++) {
                 shift = 0;

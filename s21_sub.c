@@ -1,7 +1,7 @@
 #include "s21_decimal.h"
 
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    memset(&(result->bits), 0, sizeof(result->bits));
+    nullify(result);
     int tmp_i = 0;
     int tmp_j = 0;
     int res = 0;
@@ -16,19 +16,20 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         neg2 = 1;
         set_bit_to_0(&(value_2.bits[3]), 31);
     }
-    if (neg1 && neg2) {
-        s21_sub(value_2, value_1, result);
-        set_bit_to_0(&(result->bits[3]), 31);
-    } else if (!neg1 && neg2) {
-        s21_add(value_1, value_2, result);
-    } else if (neg1 && !neg2) {
-        s21_add(value_2, value_1, result);
-        set_bit_to_1(&(result->bits[3]), 31);
+    if ((!neg1 && neg2) || (neg1 && !neg2)) {
+        res = s21_add(value_1, value_2, result);
+        if (neg1 && !neg2) {
+            set_bit_to_1(&(result->bits[3]), 31);
+        }
     } else {
         if (s21_is_greater(value_2, value_1)) {
             from_decimal_to_decimal(value_1, &tmp);
             from_decimal_to_decimal(value_2, &value_1);
             from_decimal_to_decimal(tmp, &value_2);
+            if (!neg1 && !neg2) {
+                set_bit_to_1(&(result->bits[3]), 31);
+            }
+        } else if (neg1 && neg2) {
             set_bit_to_1(&(result->bits[3]), 31);
         }
         for (int i = 0; i < 3; i++) {
@@ -55,5 +56,5 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             }
         }
     }
-    return 0;
+    return res;
 }

@@ -50,3 +50,4 @@ void multiply(s21_decimal *value1, int value2);
 void add(s21_decimal *value1, int value2);
 int is_neg(s21_decimal value);
 void from_decimal_to_decimal(s21_decimal src, s21_decimal *dst);
+void nullify(s21_decimal *value);

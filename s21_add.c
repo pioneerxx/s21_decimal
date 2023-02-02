@@ -1,7 +1,7 @@
 #include "s21_decimal.h"
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    memset(&(result->bits), 0, sizeof(result->bits));
+    nullify(result);
     int shift = 0;
     int tmp = 0;
     int res = 0;
@@ -30,7 +30,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             set_bit_to_1(&(result->bits[3]), 31);
         }
     } else {
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 32; j++) {
                 shift = 0;
                 if (get_bit(value_1.bits[i], j)) {
@@ -42,24 +42,19 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
                 shift += tmp;
                 switch(shift) {
                     case 0: {
-                        set_bit_to_0(&(result->bits[i]), j);
                         break;
                     }
                     case 1: {
                         set_bit_to_1(&(result->bits[i]), j);
-                        if (tmp > 0) {
-                            tmp--;
-                        }
+                        tmp = 0;
                         break;
                     }
                     case 2: {
-                        set_bit_to_0(&(result->bits[i]), j);
-                        tmp++;
+                        tmp = 1;
                         break;
                     }
                     case 3: {
                         set_bit_to_1(&(result->bits[i]), j);
-                        tmp++;
                         break;
                     }
                 }

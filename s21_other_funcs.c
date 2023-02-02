@@ -72,7 +72,7 @@ void add(s21_decimal *value1, int value2) {
 }
 
 void from_decimal_to_decimal(s21_decimal src, s21_decimal *dst) {
-    memset(&(dst->bits), 0, sizeof(dst->bits));
+    nullify(dst);
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 32; j++) {
             if (get_bit(src.bits[i], j)) {
@@ -80,4 +80,8 @@ void from_decimal_to_decimal(s21_decimal src, s21_decimal *dst) {
             }
         }
     }
+}
+
+void nullify(s21_decimal *value) {
+    memset(&(value->bits), 0, sizeof(value->bits));
 }

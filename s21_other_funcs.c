@@ -26,6 +26,24 @@ int is_neg(s21_decimal value) {
 
 void print_bits(s21_decimal src) {
     for (int i = 3; i > -1; i--) {
+        switch(i) {
+            case 3: {
+                printf("Дополнительные биты:\n");
+                break;
+            }
+            case 2: {
+                printf("Старшие биты:\n");
+                break;
+            }
+            case 1: {
+                printf("Средние биты:\n");
+                break;
+            }
+            case 0: {
+                printf("Младшие биты:\n");
+                break;
+            }
+        }
         for (int j = 31; j > -1; j--) {
             if (get_bit(src.bits[i], j)) {
                 printf("1 ");
@@ -33,6 +51,7 @@ void print_bits(s21_decimal src) {
                 printf("0 ");
             }
         }
+        printf("\n");
     }
     printf("\n");
 }
@@ -40,7 +59,7 @@ void print_bits(s21_decimal src) {
 int get_exp(s21_decimal src) {
     int exp = 0;
     int power = 1;
-    for (int j = 16; j < 24; j++) {
+    for (int j = 15; j < 23; j++) {
         if (get_bit(src.bits[3], j)) {
             exp += power;
         }
@@ -51,7 +70,7 @@ int get_exp(s21_decimal src) {
 
 void set_exp(s21_decimal *dst, int exp) {
     int i = 0;
-    for (int j = 16; j < 24; j++) {
+    for (int j = 15; j < 23; j++) {
         if (get_bit(exp, i)) {
             set_bit_to_1(&(dst->bits[3]), j);
         }

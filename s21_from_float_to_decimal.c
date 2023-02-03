@@ -1,7 +1,7 @@
 #include "s21_decimal.h"
 
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
-    memset(&(dst->bits), 0, sizeof(dst->bits));
+    nullify(dst);
     int start = (int)src;
     float end = src - start;
     int exp = 0;
